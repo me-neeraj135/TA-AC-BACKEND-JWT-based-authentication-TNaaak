@@ -32,7 +32,7 @@ router.post(`/login`, async (req, res, next) => {
     }
     var result = await user.verifyPassword(password);
 
-    console.log(user, result);
+    // console.log(user, result);
 
     if (!result) {
       return res.status(400).json({ error: "invalid password" });
