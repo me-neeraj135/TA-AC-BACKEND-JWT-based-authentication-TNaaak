@@ -3,6 +3,7 @@
 let mongoose = require(`mongoose`);
 let Schema = mongoose.Schema;
 let bcrypt = require(`bcrypt`);
+let jwt = require(`jsonwebtoken`);
 
 let userSchema = new Schema({
   name: { type: String, required: true },
@@ -27,6 +28,19 @@ userSchema.methods.verifyPassword = async function (password) {
     return result;
   } catch (error) {
     return error;
+  }
+};
+
+// generate token
+
+userSchema.methods.signInToken = async function () {
+  var payload = { userId: this.id, email: this.email };
+
+  try {
+    var token = await jwt.sign(payload, process.env.SECRET);
+    return token;
+  } catch (error) {
+    return next(error);
   }
 };
 
