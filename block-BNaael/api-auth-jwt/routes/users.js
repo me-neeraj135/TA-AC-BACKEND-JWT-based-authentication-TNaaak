@@ -38,6 +38,10 @@ router.post(`/login`, async (req, res, next) => {
       return res.status(400).json({ error: "invalid password" });
     }
     // generate token
+
+    var token = await user.signInToken();
+    // console.log(token);
+    res.json({ user, token });
   } catch (error) {
     next(error);
   }

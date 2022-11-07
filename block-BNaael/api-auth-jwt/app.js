@@ -10,6 +10,7 @@ var mongoStore = require(`connect-mongo`);
 
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
+require(`dotenv`).config();
 
 // connect database
 
