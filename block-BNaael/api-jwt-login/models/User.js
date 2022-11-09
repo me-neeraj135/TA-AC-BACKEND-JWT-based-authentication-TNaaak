@@ -5,11 +5,14 @@ let Schema = mongoose.Schema;
 let bcrypt = require(`bcrypt`);
 let jwt = require(`jsonwebtoken`);
 
-let userSchema = new Schema({
-  name: { type: String, required: true },
-  email: { type: String, required: true },
-  password: { type: String, required: true },
-});
+let userSchema = new Schema(
+  {
+    name: { type: String, required: true },
+    email: { type: String, required: true },
+    password: { type: String, required: true },
+  },
+  { timestamps: true }
+);
 
 // hash password
 
@@ -40,8 +43,17 @@ userSchema.methods.signInToken = async function () {
     var token = await jwt.sign(payload, process.env.SECRET);
     return token;
   } catch (error) {
-    return next(error);
+    next(error);
   }
 };
 
+// userinfo
+
+userSchema.methods.userinfo = function (token) {
+  return {
+    name: this.name,
+    email: this.email,
+    token: token,
+  };
+};
 module.exports = mongoose.model(`User`, userSchema);
