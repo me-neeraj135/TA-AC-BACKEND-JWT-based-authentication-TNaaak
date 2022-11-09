@@ -1,5 +1,5 @@
 {
-  "name": "api-auth-jwt",
+  "name": "api-jwt-login",
   "version": "0.0.0",
   "private": true,
   "scripts": {

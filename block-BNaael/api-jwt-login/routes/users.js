@@ -3,16 +3,23 @@
 var express = require("express");
 var router = express.Router();
 var User = require(`../models/User`);
+var auth = require(`../middleware/auth`);
 
 /* GET users listing. */
-router.get("/", function (req, res, next) {
-  res.json({ message: "user information" });
+router.get("/", (req, res, next) => {
+  res.json({ accessed: "user information" });
+});
+
+router.get(`/protected`, auth.verifyToken, (req, res, next) => {
+  res.json({ protected: "this is protected route" });
 });
 
 router.post(`/register`, async (req, res, next) => {
   try {
     let user = await User.create(req.body);
-    res.status(200).json({ user });
+    let token = await user.signInToken();
+
+    res.status(200).json({ user: user.userinfo(token) });
   } catch (error) {
     next(error);
   }
@@ -41,7 +48,7 @@ router.post(`/login`, async (req, res, next) => {
 
     var token = await user.signInToken();
     // console.log(token);
-    res.json({ user, token });
+    res.json({ user: user.userinfo(token) });
   } catch (error) {
     next(error);
   }

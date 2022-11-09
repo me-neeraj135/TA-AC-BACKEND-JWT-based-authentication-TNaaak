@@ -15,7 +15,7 @@ require(`dotenv`).config();
 // connect database
 
 mongoose.connect(
-  `mongodb://localhost/api-auth-jwt`,
+  `mongodb://localhost/api-jwt-login`,
   { useNewUrlParser: true, useUnifiedTopology: true },
   err => {
     console.log(err ? err : `database connected `);
