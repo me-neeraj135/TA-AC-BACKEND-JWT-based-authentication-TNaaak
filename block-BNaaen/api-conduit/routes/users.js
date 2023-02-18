@@ -63,8 +63,8 @@ router.get(`/`, auth.verifyToken, async (req, res, next) => {
     res.status(200).json({
       user: {
         email: userInfo.email,
-        bio: userInfo.bio,
-        image: userInfo.image,
+        bio: userInfo.bio ? userInfo.bio : "",
+        image: userInfo.image ? userInfo.image : "",
       },
     });
   } catch (error) {
